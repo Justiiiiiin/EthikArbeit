@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram-Post</title>
+    <style>
+        /* Grundlegendes Styling der Seite */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fafafa;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Instagram Kopfzeile */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #fff;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .header img {
+            height: 30px;
+        }
+
+        .header .username {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        /* Post Container */
+        .post-container {
+            width: 360px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        /* Profilbild */
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        /* Post Header */
+        .post-header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .post-header .username {
+            font-weight: bold;
+        }
+
+        /* Post Image */
+        .post-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        /* Post Actions (Likes & Comments) */
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+        }
+
+        .post-actions span {
+            cursor: pointer;
+        }
+
+        .like-btn {
+            font-size: 18px;
+        }
+
+        .comment-btn {
+            font-size: 18px;
+        }
+
+        .likes {
+            padding: 10px 15px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .description {
+            padding: 10px 15px;
+            font-size: 14px;
+            color: #333;
+            font-style: italic;
+        }
+
+        /* Kommentare */
+        .comments-section {
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+
+        .comment {
+            margin: 5px 0;
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .edit-comment-btn {
+            color: #007bff;
+            cursor: pointer;
+        }
+
+        /* Kommentar Eingabebereich */
+        .comment-input-section {
+            display: none;
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Instagram Header -->
+<div class="header">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram Logo">
+    <div class="username">Instagram</div>
+    <div></div> <!-- Platz für andere Icons falls nötig -->
+</div>
+
+<!-- Instagram Post -->
+<div class="post-container">
+    <div class="post-header">
+        <img src="https://imgur.com/a/fsOa2Xa" alt="Profile Picture" class="profile-pic">
+        <span class="username">GEGEN EXTREMISMUS</span>
+    </div>
+
+    <img src="https://via.placeholder.com/400x400" alt="Post Image" class="post-image">
+
+    <div class="post-actions">
+        <span class="like-btn" onclick="toggleLike()">❤️ Like</span>
+        <span class="comment-btn" onclick="toggleCommentInput()">💬 Comment</span>
+    </div>
+
+    <div class="likes" id="likeCount">0 Likes</div>
+
+    <div class="description" id="postDescription">
+        Dies ist eine coole Beschreibung zu meinem Post!
+    </div>
+
+    <div class="comments-section" id="commentsSection">
+        <div class="comment" id="comment1">
+            <span class="username">Kommentar 1</span>: 
+            <span class="comment-text">Toller Post!</span>
+            <span class="edit-comment-btn" onclick="editComment('comment1')">Bearbeiten</span>
+        </div>
+        <div class="comment" id="comment2">
+            <span class="username">Kommentar 2</span>: 
+            <span class="comment-text">Sieht super aus!</span>
+            <span class="edit-comment-btn" onclick="editComment('comment2')">Bearbeiten</span>
+        </div>
+    </div>
+
+    <div class="comment-input-section" id="commentInputSection">
+        <textarea id="newCommentInput" class="comment-input" placeholder="Schreib einen Kommentar..."></textarea>
+        <button onclick="addComment()">Kommentar hinzufügen</button>
+    </div>
+</div>
+
+<script>
+    let likes = 0;
+
+    // Funktion, um Likes zu toggeln
+    function toggleLike() {
+        likes++;
+        document.getElementById('likeCount').innerText = likes + " Likes";
+    }
+
+    // Funktion, um das Kommentar-Input anzuzeigen
+    function toggleCommentInput() {
+        const commentInputSection = document.getElementById('commentInputSection');
+        commentInputSection.style.display = commentInputSection.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // Funktion, um einen neuen Kommentar hinzuzufügen
+    function addComment() {
+        const newCommentText = document.getElementById('newCommentInput').value;
+        if (newCommentText.trim() === '') return;
+
+        const commentSection = document.getElementById('commentsSection');
+        const newComment = document.createElement('div');
+        newComment.classList.add('comment');
+        newComment.innerHTML = `
+            <span class="username">Neuer Kommentar</span>: 
+            <span class="comment-text">${newCommentText}</span>
+            <span class="edit-comment-btn" onclick="editComment(this)">Bearbeiten</span>
+        `;
+        commentSection.appendChild(newComment);
+
+        // Kommentar-Feld zurücksetzen
+        document.getElementById('newCommentInput').value = '';
+        toggleCommentInput(); // Eingabefeld schließen
+    }
+
+    // Funktion, um einen Kommentar zu bearbeiten
+    function editComment(commentElement) {
+        const newText = prompt("Bearbeite deinen Kommentar:", commentElement.previousElementSibling.innerText);
+        if (newText !== null) {
+            commentElement.previousElementSibling.innerText = newText;
+        }
+    }
+</script>
+
+</body>
+</html>
